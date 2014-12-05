@@ -1,0 +1,18 @@
+build_package_reconfigure() {
+  test -f configure || autoconf
+}
+build_package_patch_ruby_railsexpress() {
+  fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/01-zero-broken-tests.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/02-improve-gc-stats.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/03-display-more-detailed-stack-trace.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/04-show-full-backtrace-on-stack-overflow.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/05-fix-missing-c-return-event.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/06-backport-006e66b6680f60adfb434ee7397f0dbc77de7873.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/07-funny-falcon-stc-density.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/08-funny-falcon-stc-pool-allocation.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/09-aman-opt-aset-aref-str.patch
+  patch -p1 < rvm-patchsets/patches/ruby/2.1.2/railsexpress/10-funny-falcon-method-cache.patch
+}
+install_package "openssl-1.0.1j" "https://www.openssl.org/source/openssl-1.0.1j.tar.gz#f7175c9cd3c39bb1907ac8bba9df8ed3" mac_openssl --if has_broken_mac_openssl
+install_package "ruby-2_1_2" "https://github.com/ruby/ruby/archive/v2_1_2.tar.gz#46d12569a8d5f64fc12d01b2096ef590" reconfigure patch_ruby_railsexpress ldflags_dirs standard verify_openssl
