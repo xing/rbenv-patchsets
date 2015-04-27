@@ -6,4 +6,5 @@ Installation scripts for rbenv to install ruby with railsexpress patches
 
     brew install rbenv
     brew install ruby-build
-    rbenv install ./2.1.5-railsexpress
+    # clone this repository and change working directory to the respective folder
+    rbenv install ./2.1.6-railsexpress
