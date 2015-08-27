@@ -1,0 +1,9 @@
+build_package_patch_ruby_railsexpress() {
+  fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
+  for p in rvm-patchsets/patches/ruby/2.2.3/railsexpress/* ; do
+    patch -p1 < $p
+  done
+}
+
+install_package "openssl-1.0.2d" "https://www.openssl.org/source/openssl-1.0.2d.tar.gz#671c36487785628a703374c652ad2cebea45fa920ae5681515df25d9f2c9a8c8" mac_openssl --if has_broken_mac_openssl
+install_package "ruby-2.2.3" "http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz#df795f2f99860745a416092a4004b016ccf77e8b82dec956b120f18bdc71edce" patch_ruby_railsexpress ldflags_dirs standard verify_openssl
