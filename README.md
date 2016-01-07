@@ -11,7 +11,7 @@ Install the necessary binaries with homebrew first:
 - `brew install rbenv-aliases`
 - `brew install ruby-build`
 
-Then you can clone this repository with `git clone https://source.xing.com/seo-team/rbenv-railsexpress.git`.
+Then you can clone this repository with `git clone https://source.xing.com/premium-team/rbenv-railsexpress.git`.
 Then you can install a railsexpressed version of ruby with a command like this:
 
 ```
