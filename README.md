@@ -24,3 +24,11 @@ everytime:
 ```
 export RUBY_BUILD_DEFINITIONS=/PATH_TO/rbenv-railsexpress
 ```
+
+## TROUBLESHOOTING
+
+On OSX El Capitan it can happen that gems fail to build because of openssl errors.
+The following command might help:
+```
+gem install eventmachine -v '1.0.8' -- --with-cppflags=-I/usr/local/opt/openssl/include
+```
