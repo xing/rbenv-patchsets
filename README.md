@@ -11,8 +11,8 @@ Install the necessary binaries with homebrew first:
 - `brew install rbenv-aliases`
 - `brew install ruby-build`
 - clone this repository with `git clone https://source.xing.com/premium-team/rbenv-railsexpress.git`.
-- install a railsexpressed version, e.g. : `RUBY_BUILD_DEFINITIONS=/PATH_TO/rbenv-railsexpress rbenv install 2.2.3-railsexpress`
-- `rbenv alias --auto` creates an alias `2.2.3` for `2.2.3-railsexpress`
+- install a railsexpressed version, e.g. : `RUBY_BUILD_DEFINITIONS=/PATH_TO/rbenv-railsexpress rbenv install 2.3.3-railsexpress`
+- `rbenv alias --auto` creates an alias `2.3.3` for `2.3.3-railsexpress`
 
 This assumes that you have cloned the rbenv-railsexpress to
 `/PATH_TO/rbenv-railsexpress`. If you have cloned it into a different
