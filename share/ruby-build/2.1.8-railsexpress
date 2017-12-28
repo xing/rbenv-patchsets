@@ -1,7 +1,7 @@
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
-  cat rvm-patchsets/patches/ruby/2.3.5/railsexpress/* | patch -p1
+  cat rvm-patchsets/patches/ruby/2.1.8/railsexpress/* | patch -p1
 }
 
 install_package "openssl-1.0.2n" "https://www.openssl.org/source/openssl-1.0.2n.tar.gz#370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe" mac_openssl --if has_broken_mac_openssl
-install_package "ruby-2.3.5" "https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.5.tar.bz2#f71c4b67ba1bef424feba66774dc9d4bbe02375f5787e41596bc7f923739128b" patch_ruby_railsexpress ldflags_dirs standard verify_openssl
+install_package "ruby-2.1.8" "https://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.8.tar.bz2#250d0b589cba97caddc86a28849365ad0d475539448cf76bbae93190985b3387" patch_ruby_railsexpress warn_eol ldflags_dirs standard verify_openssl

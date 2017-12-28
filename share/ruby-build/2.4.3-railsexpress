@@ -1,7 +1,7 @@
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
-  cat rvm-patchsets/patches/ruby/2.4.1/railsexpress/* | patch -p1
+  cat rvm-patchsets/patches/ruby/2.4.3/railsexpress/* | patch -p1
 }
 
 install_package "openssl-1.1.0g" "https://www.openssl.org/source/openssl-1.1.0g.tar.gz#de4d501267da39310905cb6dc8c6121f7a2cad45a7707f76df828fe1b85073af"  mac_openssl --if has_broken_mac_openssl 
-install_package "ruby-2.4.1" "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.1.tar.bz2#ccfb2d0a61e2a9c374d51e099b0d833b09241ee78fc17e1fe38e3b282160237c" patch_ruby_railsexpress ldflags_dirs standard verify_openssl
+install_package "ruby-2.4.3" "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.3.tar.bz2#0a703dffb7737f56e979c9ebe2482f07751803c71e307c20446b581e0f12cf30" patch_ruby_railsexpress ldflags_dirs standard verify_openssl

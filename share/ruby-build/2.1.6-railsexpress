@@ -1,9 +1,7 @@
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
-  for p in rvm-patchsets/patches/ruby/2.1.6/railsexpress/* ; do
-    patch -p1 < $p
-  done
+  cat rvm-patchsets/patches/ruby/2.1.6/railsexpress/* | patch -p1
 }
 
-install_package "openssl-1.0.1m" "https://www.openssl.org/source/openssl-1.0.1m.tar.gz#095f0b7b09116c0c5526422088058dc7e6e000aa14d22acca6a4e2babcdfef74" mac_openssl --if has_broken_mac_openssl
-install_package "ruby-2.1.6" "http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.6.tar.gz#1e1362ae7427c91fa53dc9c05aee4ee200e2d7d8970a891c5bd76bee28d28be4" patch_ruby_railsexpress ldflags_dirs standard verify_openssl
+install_package "openssl-1.0.2n" "https://www.openssl.org/source/openssl-1.0.2n.tar.gz#370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe" mac_openssl --if has_broken_mac_openssl
+install_package "ruby-2.1.6" "https://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.6.tar.bz2#7b5233be35a4a7fbd64923e42efb70b7bebd455d9d6f9d4001b3b3a6e0aa6ce9" patch_ruby_railsexpress warn_eol ldflags_dirs standard verify_openssl

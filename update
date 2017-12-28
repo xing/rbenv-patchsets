@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+rvm_patchsets=`mktemp -d`
+git clone https://github.com/skaes/rvm-patchsets.git "$rvm_patchsets"
+
+ruby_build=`mktemp -d`
+git clone https://github.com/rbenv/ruby-build.git "$ruby_build"
+(cd "$ruby_build"; git checkout --quiet $(git describe --tags --abbrev=0))
+
+rm share/ruby-build/*
+
+for patches_path in "$rvm_patchsets"/patches/ruby/*.*.*/{p*/,}railsexpress; do
+  ruby=$(echo "$patches_path" | perl -pe 's/.*\/ruby\/(.*)\/railsexpress/$1/; s/\//-/')
+
+  echo "$ruby"
+
+  cat <<BASH > share/ruby-build/"$ruby"-railsexpress
+build_package_patch_ruby_railsexpress() {
+  fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
+  cat rvm-patchsets/patches/ruby/$ruby/railsexpress/* | patch -p1
+}
+
+$(cat "$ruby_build"/share/ruby-build/"$ruby" | perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/')
+BASH
+done
