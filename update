@@ -20,6 +20,6 @@ build_package_patch_ruby_railsexpress() {
   cat rvm-patchsets/patches/ruby/$ruby/railsexpress/* | patch -p1
 }
 
-$(cat "$ruby_build"/share/ruby-build/"$ruby" | perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/')
+$(cat "$ruby_build"/share/ruby-build/"$ruby" | perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/; s/ +$//')
 BASH
 done
