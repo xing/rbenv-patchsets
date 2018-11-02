@@ -3,7 +3,7 @@
 This repository contains the rbenv (ruby-build) build instructions for the
 railsexpress patched versions of ruby.
 
-## USAGE
+## Usage
 
 Install the necessary binaries with homebrew first:
 
@@ -14,10 +14,19 @@ Install the necessary binaries with homebrew first:
 - install a railsexpressed version, e.g. : `rbenv install 2.5.1-railsexpress`
 - `rbenv alias --auto` creates an alias `2.5.1` for `2.5.1-railsexpress`
 
-## TROUBLESHOOTING
+## Troubleshooting
 
 On OSX El Capitan it can happen that gems fail to build because of openssl errors.
 The following command might help:
 ```
 gem install eventmachine -v '1.0.8' -- --with-cppflags=-I/usr/local/opt/openssl/include
+```
+
+## Update definitions
+
+Just run update script in the plugin directory:
+
+```sh
+cd ~/.rbenv/plugins/ruby-build-railsexpress
+./update
 ```
