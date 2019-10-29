@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
-rvm_patchsets=`mktemp -d`
+set -e
+
+rvm_patchsets=$(mktemp -d)
 git clone https://github.com/skaes/rvm-patchsets.git "$rvm_patchsets"
 
-ruby_build=`mktemp -d`
+ruby_build=$(mktemp -d)
 git clone https://github.com/rbenv/ruby-build.git "$ruby_build"
-(cd "$ruby_build"; git checkout --quiet $(git describe --tags --abbrev=0))
+(cd "$ruby_build"; git checkout --quiet "$(git describe --tags --abbrev=0)")
 
-rm share/ruby-build/*
+rm -f share/ruby-build/*
 
-for patches_path in "$rvm_patchsets"/patches/ruby/*.*.*/{p*/,}railsexpress; do
-  ruby=$(echo "$patches_path" | perl -pe 's/.*\/ruby\/(.*)\/railsexpress/$1/; s/\//-/')
+rubies=$(
+  printf '%s\n' "$rvm_patchsets"/patches/ruby/*.*.*/{p*/,}railsexpress |
+  perl -pe 's/.*\/ruby\/(.*)\/railsexpress/$1/; s/\//-/' |
+  sort -V
+)
 
+for ruby in $rubies; do
   echo "$ruby"
 
   cat <<BASH > share/ruby-build/"$ruby"-railsexpress
@@ -20,6 +26,9 @@ build_package_patch_ruby_railsexpress() {
   cat rvm-patchsets/patches/ruby/$ruby/railsexpress/* | patch -p1
 }
 
-$(cat "$ruby_build"/share/ruby-build/"$ruby" | perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/; s/ +$//')
+$(perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/; s/ +$//' < "$ruby_build"/share/ruby-build/"$ruby")
 BASH
 done
+
+rm -rf "$ruby_build"
+rm -rf "$rvm_patchsets"
