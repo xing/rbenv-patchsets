@@ -1,0 +1,15 @@
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 8 * * 1-5"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: ./update
+        run: ./update
+      - name: any changes?
+        run: |
+          git add .
+          git diff --cached --exit-code
