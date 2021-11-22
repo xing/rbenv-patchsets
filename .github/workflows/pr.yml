@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1-5"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./commit-message
+      - run: echo '::set-output name=commit-message::$(./commit-message)'
+      # - name: ./update
+      #   run: ./update
+      # - name: create PR
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     # commit-message
+      #     draft: true
