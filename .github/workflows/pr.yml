@@ -13,7 +13,7 @@ jobs:
           ruby-version: 3
           bundler-cache: true
       - run: ./update
-      - run: echo 'commit-message=$(bundle exec ./commit-message)' >> $GITHUB_ENV
+      - run: echo "commit-message=$(bundle exec ./commit-message)" >> $GITHUB_ENV
       - name: create PR
         uses: peter-evans/create-pull-request@v3
         with:
