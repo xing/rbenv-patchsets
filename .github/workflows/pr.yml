@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: bundle install
       - run: ./commit-message
       - run: echo '::set-output name=commit-message::$(./commit-message)'
       # - name: ./update
