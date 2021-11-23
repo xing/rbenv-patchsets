@@ -8,7 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: bundle install
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - run: ./commit-message
       - run: echo '::set-output name=commit-message::$(./commit-message)'
       # - name: ./update
