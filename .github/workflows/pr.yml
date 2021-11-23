@@ -13,10 +13,9 @@ jobs:
           ruby-version: 3
           bundler-cache: true
       - run: ./update
-      - run: bundle exec ./commit-message
-      - run: echo '::set-output name=commit-message::$(bundle exec ./commit-message)'
-      # - name: create PR
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     # commit-message
-      #     draft: true
+      - run: echo 'commit-message=$(bundle exec ./commit-message)' >> $GITHUB_ENV
+      - name: create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: ${{ env.commit-message }}
+          draft: true
