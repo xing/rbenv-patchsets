@@ -12,10 +12,9 @@ jobs:
         with:
           ruby-version: 3
           bundler-cache: true
+      - run: ./update
       - run: bundle exec ./commit-message
       - run: echo '::set-output name=commit-message::$(bundle exec ./commit-message)'
-      # - name: ./update
-      #   run: ./update
       # - name: create PR
       #   uses: peter-evans/create-pull-request@v3
       #   with:
