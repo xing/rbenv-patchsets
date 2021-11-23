@@ -1,0 +1,19 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1-5"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3
+          bundler-cache: true
+      - run: ./update
+      - run: echo "commit-message=$(bundle exec ./commit-message)" >> $GITHUB_ENV
+      - uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: ${{ env.commit-message }}
+          delete-branch: true

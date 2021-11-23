@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'rugged'
+require 'set'
+
+NULL_ID = '0000000000000000000000000000000000000000'
+
+repo = Rugged::Repository.new('.')
+
+added = []
+updated = []
+updated_openssl = Set.new
+unrecognised = false
+repo.index.diff(paths: %w[share], include_untracked: true).deltas.each do |delta|
+  if delta.old_file[:oid] == NULL_ID
+    added << delta.old_file[:path].split('/').last.sub(/-railsexpress$/, '')
+  else
+    lines = repo.lookup(delta.old_file[:oid]).diff(repo.lookup(delta.new_file[:oid]), context_lines: 0).flat_map(&:lines)
+
+    ruby_related, lines = lines.partition{ |line| line.content.start_with?('install_package "ruby-') }
+    updated += ruby_related.select(&:addition?).map{ |line| line.content[/"ruby-(.*?)"/, 1] }
+
+    openssl_related, lines = lines.partition{ |line| line.content.start_with?('install_package "openssl-') }
+    updated_openssl += openssl_related.select(&:addition?).map{ |line| line.content[/"(openssl-.*?)"/, 1] }
+
+    unless lines.empty?
+      unrecognised = true
+      warn 'Unrecognised changes:', lines.map(&:inspect)
+    end
+  end
+end
+
+parts = []
+parts << "add definitions for #{added.join(', ')}" unless added.empty?
+parts << "update definitions for #{updated.join(', ')}" unless updated.empty?
+parts << "update definitions with #{updated_openssl.to_a.join(', ')}" unless updated_openssl.empty?
+parts << 'unrecognised changes' if unrecognised
+
+puts parts.join(', ')
