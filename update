@@ -23,7 +23,10 @@ for ruby in $rubies; do
   cat <<BASH > share/ruby-build/"$ruby"-railsexpress
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
-  cat rvm-patchsets/patches/ruby/$ruby/railsexpress/* | patch -p1
+  cat \$(
+    sed -r "s/(railsexpress\/.*)/rvm-patchsets\/patches\/ruby\/$ruby\/\1/g" \\
+    rvm-patchsets/patchsets/ruby/$ruby/railsexpress
+  ) | patch -p1
 }
 
 $(perl -pe 's/(ruby.*")/$1 patch_ruby_railsexpress/; s/ +$//' < "$ruby_build"/share/ruby-build/"$ruby")
