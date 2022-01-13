@@ -1,6 +1,8 @@
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
-  cat rvm-patchsets/patches/ruby/1.9.3-p125/railsexpress/* | patch -p1
+  while IFS= read -r patch; do
+    patch -p1 < "rvm-patchsets/patches/ruby/1.9.3/p125/$patch"
+  done < "rvm-patchsets/patchsets/ruby/1.9.3/p125/railsexpress"
 }
 
 [ -n "$CC" ] || export CC=cc
