@@ -19,13 +19,14 @@ rubies=$(
 
 for ruby in $rubies; do
   echo "$ruby"
+  ruby_path=$(echo $ruby | sed -r "s,-,/,")
 
   cat <<BASH > share/ruby-build/"$ruby"-railsexpress
 build_package_patch_ruby_railsexpress() {
   fetch_git rvm-patchsets git://github.com/skaes/rvm-patchsets.git master
   cat \$(
-    sed -r "s/(railsexpress\/.*)/rvm-patchsets\/patches\/ruby\/$ruby\/\1/g" \\
-    rvm-patchsets/patchsets/ruby/$ruby/railsexpress
+    sed -r "s,(railsexpress/.*),rvm-patchsets/patches/ruby/$ruby_path/\1,g" \\
+    rvm-patchsets/patchsets/ruby/$ruby_path/railsexpress
   ) | patch -p1
 }
 
